@@ -1,15 +1,26 @@
 package com.trainig.restapidemo.user.bean;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import javax.validation.constraints.Past;
 import javax.validation.constraints.Size;
 import java.time.LocalDate;
 
+@Entity
+@Table(name = "user")
 public class UserBean {
+
+    @Id
+    @GeneratedValue
     private Integer id;
     @Size(min = 2, message = "Name should atleast 2 ")
     private String name;
     @Past(message = "Birth Date must be a past date")
     private LocalDate birthDate;
+
+    public UserBean() {}
 
     public UserBean(Integer id, String name, LocalDate birthDate) {
         this.id = id;
@@ -52,5 +63,14 @@ public class UserBean {
 
         UserBean user = (UserBean) o;
         return id.equals(user.id);
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result
+                + ((id == null) ? 0 : id.hashCode());
+        return result;
     }
 }
