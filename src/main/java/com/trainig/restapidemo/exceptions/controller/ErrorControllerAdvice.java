@@ -30,14 +30,14 @@ public class ErrorControllerAdvice extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler(UserNotFoundException.class)
-    public final ResponseEntity<Object> UserNotFoundErrorHandler(UserNotFoundException ex, WebRequest request) {
+    public final ResponseEntity<Object> userNotFoundErrorHandler(UserNotFoundException ex, WebRequest request) {
         ExceptionResponse exceptionResponse = new ExceptionResponse(LocalDateTime.now(), ex.getMessage(), request.getDescription(false));
 
         return new ResponseEntity<>(exceptionResponse, HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(UserAlreadyExistException.class)
-    public final ResponseEntity<Object> UserAlreadyExistHandler(UserAlreadyExistException ex, WebRequest request) {
+    public final ResponseEntity<Object> userAlreadyExistHandler(UserAlreadyExistException ex, WebRequest request) {
         ExceptionResponse exceptionResponse = new ExceptionResponse(LocalDateTime.now(), ex.getMessage(), request.getDescription(false));
 
         return new ResponseEntity<>(exceptionResponse, HttpStatus.BAD_REQUEST);
