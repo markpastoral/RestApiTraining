@@ -2,6 +2,8 @@ package com.trainig.restapidemo.user.controller;
 
 import com.trainig.restapidemo.exceptions.UserNotFoundException;
 import com.trainig.restapidemo.user.bean.UserBean;
+import com.trainig.restapidemo.user.bean.UserDTO;
+import com.trainig.restapidemo.user.bean.UserMapper;
 import com.trainig.restapidemo.user.service.JPAUserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,9 +17,11 @@ import java.util.List;
 public class JPAUserController {
 
     private final JPAUserService userService;
+    private final UserMapper userMapper;
 
-    public JPAUserController(JPAUserService userService) {
+    public JPAUserController(JPAUserService userService, UserMapper userMapper) {
         this.userService = userService;
+        this.userMapper = userMapper;
     }
 
     @GetMapping
@@ -31,8 +35,9 @@ public class JPAUserController {
     }
 
     @PostMapping
-    public ResponseEntity<UserBean> saveUser(@Valid @RequestBody UserBean user) {
-        return new ResponseEntity<>(userService.saveUser(user), HttpStatus.CREATED);
+    public ResponseEntity<UserBean> saveUser(@Valid @RequestBody UserDTO user) {
+        UserBean userBean = userMapper.dtoToBean(user);
+        return new ResponseEntity<>(userService.saveUser(userBean), HttpStatus.CREATED);
     }
 
     @DeleteMapping("/{id}")

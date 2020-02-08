@@ -10,6 +10,7 @@ import java.util.List;
 
 @Service
 public class JPAUserService {
+
     private final JPAUserDAO jpaUserDAO;
 
     public JPAUserService(JPAUserDAO jpaUserDAO) {
