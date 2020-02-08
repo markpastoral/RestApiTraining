@@ -35,7 +35,6 @@ public class JPAUserService {
         } catch (EmptyResultDataAccessException e) {
             throw new UserNotFoundException(String.format("User with id %d not found", id));
         }
-
     }
 
 

@@ -4,7 +4,7 @@ import com.trainig.restapidemo.exceptions.UserAlreadyExistException;
 import com.trainig.restapidemo.exceptions.UserNotFoundException;
 import com.trainig.restapidemo.user.bean.User;
 import com.trainig.restapidemo.user.bean.UserDTO;
-import com.trainig.restapidemo.user.bean.UserMapper;
+import com.trainig.restapidemo.user.bean.mapper.UserMapper;
 import com.trainig.restapidemo.user.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

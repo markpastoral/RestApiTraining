@@ -3,9 +3,11 @@ package com.trainig.restapidemo.user.bean;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.validation.constraints.Past;
 import javax.validation.constraints.Size;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -19,7 +21,11 @@ public class User {
     @Past(message = "Birth Date must be a past date")
     private LocalDate birthDate;
 
-    public User() {}
+    @OneToMany(mappedBy = "user")
+    private List<Post> posts;
+
+    public User() {
+    }
 
     public User(Integer id, String name, LocalDate birthDate) {
         this.id = id;
@@ -49,6 +55,14 @@ public class User {
 
     public LocalDate getBirthDate() {
         return birthDate;
+    }
+
+    public List<Post> getPosts() {
+        return posts;
+    }
+
+    public void setPosts(List<Post> posts) {
+        this.posts = posts;
     }
 
     @Override

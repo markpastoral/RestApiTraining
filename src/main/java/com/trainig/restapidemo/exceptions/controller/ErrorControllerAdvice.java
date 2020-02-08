@@ -1,5 +1,6 @@
 package com.trainig.restapidemo.exceptions.controller;
 
+import com.trainig.restapidemo.exceptions.PostNotFoundException;
 import com.trainig.restapidemo.exceptions.UserAlreadyExistException;
 import com.trainig.restapidemo.exceptions.UserNotFoundException;
 import com.trainig.restapidemo.exceptions.bean.ExceptionResponse;
@@ -37,5 +38,13 @@ public class ErrorControllerAdvice extends ResponseEntityExceptionHandler {
 
         return new ResponseEntity<>(exceptionResponse, HttpStatus.BAD_REQUEST);
     }
+
+    @ExceptionHandler(PostNotFoundException.class)
+    public final ResponseEntity<Object> postNotFoundErrorHandler(PostNotFoundException ex, WebRequest request) {
+        ExceptionResponse exceptionResponse = new ExceptionResponse(LocalDateTime.now(), ex.getMessage(), request.getDescription(false));
+
+        return new ResponseEntity<>(exceptionResponse, HttpStatus.BAD_REQUEST);
+    }
+
 
 }
