@@ -2,7 +2,9 @@ package com.trainig.restapidemo.user.controller;
 
 import com.trainig.restapidemo.exceptions.UserAlreadyExistException;
 import com.trainig.restapidemo.exceptions.UserNotFoundException;
-import com.trainig.restapidemo.user.bean.UserBean;
+import com.trainig.restapidemo.user.bean.User;
+import com.trainig.restapidemo.user.bean.UserDTO;
+import com.trainig.restapidemo.user.bean.UserMapper;
 import com.trainig.restapidemo.user.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,23 +18,26 @@ import java.util.List;
 public class UserController {
 
     private final UserService userService;
+    private final UserMapper userMapper;
 
-    public UserController(UserService userService) {
+    public UserController(UserService userService, UserMapper userMapper) {
         this.userService = userService;
+        this.userMapper = userMapper;
     }
 
     @GetMapping
-    public ResponseEntity<List<UserBean>> retrieveAllUsers() {
+    public ResponseEntity<List<User>> retrieveAllUsers() {
         return new ResponseEntity<>(userService.retrieveAllUsers(), HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<UserBean> retrieveUserById(@PathVariable Integer id) throws UserNotFoundException {
+    public ResponseEntity<User> retrieveUserById(@PathVariable Integer id) throws UserNotFoundException {
         return new ResponseEntity<>(userService.retrieveUserById(id), HttpStatus.OK);
     }
 
     @PostMapping
-    public ResponseEntity<UserBean> saveUser(@Valid @RequestBody UserBean user) throws UserAlreadyExistException {
+    public ResponseEntity<User> saveUser(@Valid @RequestBody UserDTO userDTO) throws UserAlreadyExistException {
+        User user = userMapper.dtoToBean(userDTO);
         return new ResponseEntity<>(userService.saveUser(user), HttpStatus.CREATED);
     }
 

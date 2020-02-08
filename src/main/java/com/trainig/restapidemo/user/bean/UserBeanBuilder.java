@@ -22,7 +22,7 @@ public class UserBeanBuilder {
         return this;
     }
 
-    public UserBean createUserBean() {
-        return new UserBean(id, name, birthDate);
+    public User createUserBean() {
+        return new User(id, name, birthDate);
     }
 }

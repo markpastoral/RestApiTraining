@@ -3,14 +3,13 @@ package com.trainig.restapidemo.user.bean;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.Table;
 import javax.validation.constraints.Past;
 import javax.validation.constraints.Size;
 import java.time.LocalDate;
+import java.util.Objects;
 
 @Entity
-@Table(name = "user")
-public class UserBean {
+public class User {
 
     @Id
     @GeneratedValue
@@ -20,9 +19,9 @@ public class UserBean {
     @Past(message = "Birth Date must be a past date")
     private LocalDate birthDate;
 
-    public UserBean() {}
+    public User() {}
 
-    public UserBean(Integer id, String name, LocalDate birthDate) {
+    public User(Integer id, String name, LocalDate birthDate) {
         this.id = id;
         this.name = name;
         this.birthDate = birthDate;
@@ -54,23 +53,15 @@ public class UserBean {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-
-        UserBean user = (UserBean) o;
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
         return id.equals(user.id);
     }
 
     @Override
     public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result
-                + ((id == null) ? 0 : id.hashCode());
-        return result;
+        return Objects.hash(id);
     }
+
 }

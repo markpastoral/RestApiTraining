@@ -2,7 +2,7 @@ package com.trainig.restapidemo.user.dao;
 
 import com.trainig.restapidemo.exceptions.UserAlreadyExistException;
 import com.trainig.restapidemo.exceptions.UserNotFoundException;
-import com.trainig.restapidemo.user.bean.UserBean;
+import com.trainig.restapidemo.user.bean.User;
 import com.trainig.restapidemo.user.bean.UserBeanBuilder;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Repository;
@@ -16,7 +16,7 @@ import java.util.List;
 @Repository("staticUserDAO")
 public class StaticUserDAOImpl implements UserDAO {
 
-    private static List<UserBean> users = new ArrayList<>();
+    private static List<User> users = new ArrayList<>();
     private static Integer userCount = 0;
 
     static {
@@ -26,19 +26,19 @@ public class StaticUserDAOImpl implements UserDAO {
     }
 
     @Override
-    public List<UserBean> findAll() {
+    public List<User> findAll() {
         return users;
     }
 
     @Override
-    public UserBean findById(Integer id) throws UserNotFoundException {
+    public User findById(Integer id) throws UserNotFoundException {
         return users.stream().filter(user -> user.getId().equals(id)).findAny().orElseThrow(() -> new UserNotFoundException(String.format("User with id %d not found", id)));
     }
 
     @Override
-    public UserBean save(UserBean user) throws UserAlreadyExistException {
+    public User save(User user) throws UserAlreadyExistException {
         if (user.getId() == null) {
-            user.setId(++userCount);
+            user.setId(incrementUserCount());
         } else if (users.contains(user)) {
             throw new UserAlreadyExistException(String.format("User with id %d already exists", user.getId()));
         }
@@ -48,11 +48,11 @@ public class StaticUserDAOImpl implements UserDAO {
     }
 
     @Override
-    public UserBean delete(Integer id) throws UserNotFoundException {
-        Iterator<UserBean> userIterator = users.iterator();
+    public User delete(Integer id) throws UserNotFoundException {
+        Iterator<User> userIterator = users.iterator();
 
         while (userIterator.hasNext()) {
-            UserBean user = userIterator.next();
+            User user = userIterator.next();
             if (user.getId().equals(id)) {
                 userIterator.remove();
                 return user;
@@ -60,5 +60,9 @@ public class StaticUserDAOImpl implements UserDAO {
         }
 
         throw new UserNotFoundException(String.format("User with id %d not found", id));
+    }
+
+    private static Integer incrementUserCount() {
+        return ++userCount;
     }
 }

@@ -1,7 +1,7 @@
 package com.trainig.restapidemo.user.controller;
 
 import com.trainig.restapidemo.exceptions.UserNotFoundException;
-import com.trainig.restapidemo.user.bean.UserBean;
+import com.trainig.restapidemo.user.bean.User;
 import com.trainig.restapidemo.user.bean.UserDTO;
 import com.trainig.restapidemo.user.bean.UserMapper;
 import com.trainig.restapidemo.user.service.JPAUserService;
@@ -25,19 +25,19 @@ public class JPAUserController {
     }
 
     @GetMapping
-    public ResponseEntity<List<UserBean>> retrieveAllUsers() {
+    public ResponseEntity<List<User>> retrieveAllUsers() {
         return new ResponseEntity<>(userService.retrieveAllUsers(), HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<UserBean> retrieveUserById(@PathVariable Integer id) throws UserNotFoundException {
+    public ResponseEntity<User> retrieveUserById(@PathVariable Integer id) throws UserNotFoundException {
         return new ResponseEntity<>(userService.retrieveUserById(id), HttpStatus.OK);
     }
 
     @PostMapping
-    public ResponseEntity<UserBean> saveUser(@Valid @RequestBody UserDTO user) {
-        UserBean userBean = userMapper.dtoToBean(user);
-        return new ResponseEntity<>(userService.saveUser(userBean), HttpStatus.CREATED);
+    public ResponseEntity<User> saveUser(@Valid @RequestBody UserDTO userDTO) {
+        User user = userMapper.dtoToBean(userDTO);
+        return new ResponseEntity<>(userService.saveUser(user), HttpStatus.CREATED);
     }
 
     @DeleteMapping("/{id}")

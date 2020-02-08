@@ -1,7 +1,7 @@
 package com.trainig.restapidemo.user.service;
 
 import com.trainig.restapidemo.exceptions.UserNotFoundException;
-import com.trainig.restapidemo.user.bean.UserBean;
+import com.trainig.restapidemo.user.bean.User;
 import com.trainig.restapidemo.user.dao.JPAUserDAO;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
@@ -17,15 +17,15 @@ public class JPAUserService {
         this.jpaUserDAO = jpaUserDAO;
     }
 
-    public List<UserBean> retrieveAllUsers() {
+    public List<User> retrieveAllUsers() {
         return jpaUserDAO.findAll();
     }
 
-    public UserBean retrieveUserById(Integer id) throws UserNotFoundException {
+    public User retrieveUserById(Integer id) throws UserNotFoundException {
         return jpaUserDAO.findById(id).orElseThrow(() -> new UserNotFoundException(String.format("User with id %d not found", id)));
     }
 
-    public UserBean saveUser(UserBean bean) {
+    public User saveUser(User bean) {
         return jpaUserDAO.save(bean);
     }
 
